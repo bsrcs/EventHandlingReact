@@ -1,49 +1,49 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 function App() {
 
-  const [headingText, setHeadingText] = useState("");
-  const [isMouseOver, setMouseOver] = useState(false); 
-  const [name, setName] = useState("");
+ const [isMouseOver, setMouseOver] = useState(false);
+  const [fname, setFName] = useState("");
+  const [lname, setLName] = useState("");
 
-  function handleClick(event){
-    setHeadingText(name);
-    event.preventDefault();
-  }
-
-  function handleMouseOver(){
+  function handleMouseOver() {
     setMouseOver(true);
   }
 
-  function handleMouseOut(){
+  function handleMouseOut() {
     setMouseOver(false);
   }
 
-  // "event" objekti onChange'i trigger eder.
-  // "target" the element that triggered this "event".
-  // value corresponds to value of attributes.
-  function handleChange(event){
-    //console.log(event.target.value);
-    setName(event.target.value);
+  function updateFName(event){
+    const firstName = event.target.value;
+    setFName(firstName);
   }
-
-// input elementi ne zaman "onChange"de store edilen "handleChange" fonk.ununu trigger ediyor?
+  function updateLName(event){
+    const lastName = event.target.value;
+    setLName(lastName);
+  }
 
   return (
     <div className="container">
-      <h1>Hello {headingText}</h1>
-      <form onSubmit={handleClick}>
-      <input 
-      onChange={handleChange}
-      type="text" 
-      placeholder="What's your name?"
-      value={name}
-       />
-      <button 
-      style = {{backgroundColor: isMouseOver? "black": "white"}}
-      onMouseOver={handleMouseOver} 
-      onMouseOut ={handleMouseOut}
-      >Submit</button>
+      <h1>Hello {fname} {lname}</h1>
+      <form>
+        <input
+          onChange={updateFName}
+          type="text"
+          placeholder="First Name"
+          value={fname}
+        />
+        <input
+          onChange={updateLName}
+          type="text"
+          placeholder="Last Name"
+          value={lname}
+        />
+        <button
+          style={{ backgroundColor: isMouseOver ? "black" : "white" }}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        >Submit</button>
       </form>
     </div>
   );
