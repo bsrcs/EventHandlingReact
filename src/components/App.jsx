@@ -3,8 +3,11 @@ import React, { useState } from "react";
 function App() {
 
  const [isMouseOver, setMouseOver] = useState(false);
-  const [fname, setFName] = useState("");
-  const [lname, setLName] = useState("");
+ // instead of storing simple value we're storing an object
+  const [fullName, setFullName] = useState({
+    fname: "",
+    lname: ""
+  });
 
   function handleMouseOver() {
     setMouseOver(true);
@@ -14,36 +17,51 @@ function App() {
     setMouseOver(false);
   }
 
-  function updateFName(event){
-    const firstName = event.target.value;
-    setFName(firstName);
-  }
-  function updateLName(event){
-    const lastName = event.target.value;
-    setLName(lastName);
+  // return fname & lname as an object to see both on heading
+  function handleChange(event){
+    // const newValue = event.target.value;
+    // const inputName = event.target.name;
+    
+    // instead we can use object destructuring
+    const {value, name} = event.object;
+
+    setFullName(prevValue => {
+      if(name === "fname"){
+        return{
+          fname: value,
+          lname: prevValue.lname
+        };
+      }
+      else if(name === "lname"){
+        return{
+          fname: prevValue.fname,
+          lname: value
+        };
+      }
+    });
   }
 
   return (
     <div className="container">
-      <h1>Hello {fname} {lname}</h1>
+      <h1>Hello {fullName.fname} {fullName.lname}</h1>
       <form>
         <input
-          onChange={updateFName}
-          type="text"
+          onChange={handleChange}
+          name="fname"
           placeholder="First Name"
-          value={fname}
+          value={fullName.fname}
         />
         <input
-          onChange={updateLName}
-          type="text"
+          onChange={handleChange}
+          name="lname"
           placeholder="Last Name"
-          value={lname}
+          value={fullName.lname}
         />
         <button
           style={{ backgroundColor: isMouseOver ? "black" : "white" }}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
-        >Submit</button>
+          >Submit</button>
       </form>
     </div>
   );
